@@ -1,0 +1,12 @@
+- name: Check Chrony Service
+  hosts: linux
+  gather_facts: true
+  tasks:
+    - name: Get Chrony service status
+      command: systemctl is-active chronyd
+      register: chrony_service_status
+      changed_when: false
+
+    - name: Echo message based on Chrony service status
+      debug:
+        msg: "Chrony service is {{ 'running' if chrony_service_status.stdout == 'active' else 'not running' }}"
